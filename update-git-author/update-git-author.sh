@@ -16,8 +16,8 @@ options=":enf"
 
 while getopts ${options} arg; do
   case "${arg}" in
-    e) echo "Option 'e' was called" ;;
-    n) echo "Option 'n' was called" ;;
+    e) echo "Option 'e' was called with ${arg}" ;;
+    n) echo "Option 'n' was called with ${arg}" ;;
 
     ?)
       echo "Invalid option: -${OPTARG}."
