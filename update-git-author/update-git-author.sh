@@ -13,14 +13,24 @@ if [[ ${#} -eq 0 ]]; then
    usage
 fi
 
-options=":enf"
+options=":e:n:f:"
 
 while getopts ${options} arg; do
   case "${arg}" in
     e)
-       echo "argument -e called with parameter $OPTARG" >&2;;
+       IFS=";" read -r -a email <<< "${OPTARG}"
+       if [[ ${#email[@]} != 2 ]]; then 
+         echo "Malformed or unexpected input, ensure only one ';' is present per argument"
+         exit 1
+       fi
+       ;;
     n) 
-      echo "N VALUE: ${OPTARG}";;
+       IFS=";" read -r -a name <<< "${OPTARG}"
+       if [[ ${#name[@]} != 2 ]]; then 
+         echo "Malformed or unexpected input, ensure only one ';' is present per argument"
+         exit 1
+       fi
+       ;;
     ?)
       echo "Invalid option: -${OPTARG}."
       echo
@@ -29,21 +39,48 @@ while getopts ${options} arg; do
   esac
 done
 
-# echo "Replacing commits by '$1' with '$2', '$3'"
-# echo "Continue? [y/n]"
-# read CONFIRM
+echo "All historic commits will be replaced that contain:" 
+  if [[ $email ]]; then 
+    echo "  GIT_AUTHOR_EMAIL: \"${email[0]}\" with \"${email[1]}\"" 
+  fi
+  if [[ $name ]]; then 
+    echo "  GIT_AUTHOR_NAME: \"${name[0]}\" with \"${name[1]}\"" 
+  fi
 
-# if [[ ! $CONFIRM =~ ^[Yy]$ ]]
-#   then
-#     exit 1
-# fi
+echo "Continue? [y/n]"
+read CONFIRM
 
-# git filter-branch --commit-filter '
-#         if [ "$GIT_AUTHOR_EMAIL" = "$1" ];
-#         then
-#                 GIT_AUTHOR_NAME="$2";
-#                 GIT_AUTHOR_EMAIL="$3";
-#                 git commit-tree "$@";
-#         else
-#                 git commit-tree "$@";
-#         fi' HEAD
+if [[ ! $CONFIRM =~ ^[Yy]$ ]]
+   then exit 1
+fi
+
+if [[ $email && $name ]]; then 
+  git filter-branch --commit-filter '
+           if [ "$GIT_AUTHOR_EMAIL" = "${email[0]}" && "GIT_AUTHOR_NAME" = "${name[0]}" ];
+           then
+                   GIT_AUTHOR_NAME="${name[1]}";
+                   GIT_AUTHOR_EMAIL="${email[1]}";
+                   git commit-tree "$@";
+           else
+                   git commit-tree "$@";
+           fi' HEAD
+elif [[ $email ]]; then
+  git filter-branch --commit-filter '
+           if [ "$GIT_AUTHOR_EMAIL" = "${email[0]}"" ];
+           then
+                   GIT_AUTHOR_EMAIL="${email[1]}";
+                   git commit-tree "$@";
+           else
+                   git commit-tree "$@";
+           fi' HEAD
+else
+  git filter-branch --commit-filter '
+           if [ "GIT_AUTHOR_NAME" = "${name[0]}" ];
+           then
+                   GIT_AUTHOR_NAME="${name[1]}";
+                   git commit-tree "$@";
+           else
+                   git commit-tree "$@";
+           fi' HEAD
+fi
+
