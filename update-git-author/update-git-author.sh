@@ -84,3 +84,13 @@ echo "if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];"
            fi" HEAD
 fi
 
+#PREVIOUS WORKING VERSION
+# git filter-branch -f --commit-filter '
+#         if [ "$GIT_AUTHOR_NAME" = "chairs" ];
+#         then
+#                 GIT_AUTHOR_NAME="Chris Gough";
+#                 git commit-tree "$@";
+#         else
+#                 git commit-tree "$@";
+#         fi' HEAD
+
