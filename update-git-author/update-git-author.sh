@@ -55,23 +55,23 @@ fi
 
 if [[ $email && $name ]]; then 
   git filter-branch -f --commit-filter "
-           if [ \"$GIT_AUTHOR_EMAIL\" = \"${email[0]}\" && \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];
-           then
-                   GIT_AUTHOR_NAME="${name[1]}";
-                   GIT_AUTHOR_EMAIL="${email[1]}";
-                   git commit-tree \"$@\";
-           else
-                   git commit-tree \"$@\";
-           fi" HEAD
+        if [ "$GIT_AUTHOR_NAME" = "'"${name[0]}"'" && "$GIT_AUTHOR_EMAIL" = "'"${email[0]}"'"];
+        then
+                GIT_AUTHOR_EMAIL="'"${email[1]}"'";
+                GIT_AUTHOR_NAME="'"${name[1]}"'";
+                git commit-tree "$@";
+        else
+                git commit-tree "$@";
+        fi' HEAD
 elif [[ $email ]]; then
   git filter-branch -f --commit-filter "
-           if [ \"$GIT_AUTHOR_EMAIL\" = \"${email[0]}\" ];
-           then
-                   GIT_AUTHOR_EMAIL="${email[1]}";
-                   git commit-tree "$@";
-           else
-                   git commit-tree "$@";
-           fi" HEAD
+        if [ "$GIT_AUTHOR_EMAIL" = "'"${email[0]}"'" ];
+        then
+                GIT_AUTHOR_EMAIL="'"${email[1]}"'";
+                git commit-tree "$@";
+        else
+                git commit-tree "$@";
+        fi' HEAD
 else
 echo "if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];"
 git filter-branch -f --commit-filter '
