@@ -76,10 +76,10 @@ else
   git filter-branch -f --commit-filter "
            if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];
            then
-                   GIT_AUTHOR_NAME="${name[1]}";
-                   git commit-tree "$@";
+                   GIT_AUTHOR_NAME=${name[1]};
+                   git commit-tree \"$@\";
            else
-                   git commit-tree "$@";
+                   git commit-tree \"$@\";
            fi" HEAD
 fi
 
