@@ -1,7 +1,38 @@
 #!/bin/bash
 
-# -I{} execThis.sh {} replaces {} with the full string 
-# git -C does the same as git --git-dir (uses an OS-level directory chdir operation), with the distinction that $GIT_DIR is set to a relative path. This changes the way sub-commands locate the repository
+function usage {
+  echo "Usage: $(basename $0) -b [optional branch]" 2>&1
+  echo "Example: pull-all-projects.sh -b develop"
+  echo '  -b    only updates branches that match the name'
+  exit 1
+}
 
-# Task - do a check to see if we're on develop
-find . -name ".git" -type d | sed 's/\/.git//' | xargs -P10 -I{} git -C {} pull
+options=":b:"
+
+while getopts ${options} arg; do
+  case "${arg}" in
+    b)
+       branch="${OPTARG}"
+       ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      echo
+      usage
+      ;;
+  esac
+done
+
+if [[ $branch ]]; then
+  echo "Pulling all branches that are currently on" $branch
+  all_branches=(`find . -name ".git" -type d | sed 's/\/.git//'`)
+  parsed_branches=()
+  for val in ${all_branches[@]}; do
+    if [ `git -C $val branch --show-current` == $branch ]; then 
+      parsed_branches+=($val)
+    fi
+  done
+  printf '%s\n' "${parsed_branches[@]}" | xargs -P10 -I% git -C % pull
+else
+  echo "Pulling all branches in subdirectories"
+  find . -name ".git" -type d | sed 's/\/.git//' | xargs -P10 -I% git -C % pull
+fi
