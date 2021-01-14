@@ -85,6 +85,7 @@ echo "if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];"
 fi
 
 #PREVIOUS WORKING VERSION
+# We're in soft quotes here so probably have to escape strings AND dollar sign
 # git filter-branch -f --commit-filter '
 #         if [ "$GIT_AUTHOR_NAME" = "chairs" ];
 #         then
