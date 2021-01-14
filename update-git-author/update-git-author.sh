@@ -13,7 +13,7 @@ if [[ ${#} -eq 0 ]]; then
    usage
 fi
 
-options=":e:n:f:"
+options=":e:n:"
 
 while getopts ${options} arg; do
   case "${arg}" in
@@ -55,7 +55,7 @@ if [[ ! $CONFIRM =~ ^[Yy]$ ]]
 fi
 
 if [[ $email && $name ]]; then 
-  git filter-branch --commit-filter '
+  git filter-branch -f --commit-filter '
            if [ "$GIT_AUTHOR_EMAIL" = "${email[0]}" && "GIT_AUTHOR_NAME" = "${name[0]}" ];
            then
                    GIT_AUTHOR_NAME="${name[1]}";
@@ -65,7 +65,7 @@ if [[ $email && $name ]]; then
                    git commit-tree "$@";
            fi' HEAD
 elif [[ $email ]]; then
-  git filter-branch --commit-filter '
+  git filter-branch -f --commit-filter '
            if [ "$GIT_AUTHOR_EMAIL" = "${email[0]}"" ];
            then
                    GIT_AUTHOR_EMAIL="${email[1]}";
@@ -74,7 +74,7 @@ elif [[ $email ]]; then
                    git commit-tree "$@";
            fi' HEAD
 else
-  git filter-branch --commit-filter '
+  git filter-branch -f --commit-filter '
            if [ "GIT_AUTHOR_NAME" = "${name[0]}" ];
            then
                    GIT_AUTHOR_NAME="${name[1]}";
