@@ -73,6 +73,8 @@ elif [[ $email ]]; then
                    git commit-tree "$@";
            fi" HEAD
 else
+echo ${name[0]}
+echo ${name[1]}
   git filter-branch -f --commit-filter "
            if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];
            then
