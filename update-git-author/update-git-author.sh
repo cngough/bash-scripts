@@ -55,7 +55,7 @@ fi
 
 if [[ $email && $name ]]; then 
   git filter-branch -f --commit-filter '
-        if [ "$GIT_AUTHOR_NAME" = "'"${name[0]}"'" ];
+        if [ "$GIT_AUTHOR_NAME" = "'"${name[0]}"'" ] && [ "$GIT_AUTHOR_EMAIL" = "'"${email[0]}"'" ];
         then
                 GIT_AUTHOR_EMAIL="'"${email[1]}"'";
                 GIT_AUTHOR_NAME="'"${name[1]}"'";
