@@ -74,7 +74,7 @@ elif [[ $email ]]; then
            fi" HEAD
 else
 echo "if [ \"$GIT_AUTHOR_NAME\" = \"${name[0]}\" ];"
-git filter-branch -f --commit-filter "\'\n        if \[ \"\$GIT_AUTHOR_NAME\" = \"Chris Gough\" \]\;\n        then\n                GIT_AUTHOR_NAME=\"chairs\"\;\n                git commit-tree \"\$@\"\;\n        else\n                git commit-tree \"\$@\"\;\n        fi\' HEAD"
+git filter-branch -f --commit-filter "\'if \[ \"\$GIT_AUTHOR_NAME\" = \"Chris Gough\" \]\; then GIT_AUTHOR_NAME=\"chairs\"\; git commit-tree \"\$@\"\; else git commit-tree \"\$@\"\; fi\' HEAD"
 fi
 
 #PREVIOUS WORKING VERSION
