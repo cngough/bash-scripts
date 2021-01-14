@@ -83,15 +83,3 @@ git filter-branch -f --commit-filter '
                 git commit-tree "$@";
         fi' HEAD
 fi
-
-#PREVIOUS WORKING VERSION
-# We're in soft quotes here so probably have to escape strings AND dollar sign
-# git filter-branch -f --commit-filter '
-#         if [ "$GIT_AUTHOR_NAME" = "chairs" ];
-#         then
-#                 GIT_AUTHOR_NAME="Chris Gough";
-#                 git commit-tree "$@";
-#         else
-#                 git commit-tree "$@";
-#         fi' HEAD
-
