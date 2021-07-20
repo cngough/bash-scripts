@@ -3,7 +3,7 @@
 function usage {
   echo "Usage: $(basename $0) -c [container]" 2>&1
   echo "Example: kill-docker-containers.sh -c container"
-  echo '  -i    the container name to be killed'
+  echo '  -c    the container name to be killed'
   exit 1
 }
 
