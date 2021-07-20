@@ -23,6 +23,6 @@ while getopts ${options} arg; do
 done
 
 if [[ $container ]]; then
-  echo "Killing all container with name:" $container
+  echo "Killing all containers with name:" $container
   docker ps | grep $container | awk '{ print $1;}' | xargs docker kill
 fi
