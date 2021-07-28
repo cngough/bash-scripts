@@ -1,7 +1,7 @@
 #!/bin/bash
 #title           :download-everything.sh
 #description     :Given a URL it will download absolutely everything and put it in nice nested directories
-#author			 :chris@chris-gough.com
+#author          :github.com/cngough
 #date            :20181015
 #version         :0.1
 #==============================================================================
