@@ -1,4 +1,10 @@
 #!/bin/bash
+#title           :kolmafia-update.sh
+#description     :Pulls the latest built version of KoLMafia (http://kolmafia.sourceforge.net/) to the current directory
+#author          :github.com/cngough
+#date            :20210720
+#version         :0.1
+#==============================================================================
 
 kolmafia_url=https://ci.kolmafia.us/job/Kolmafia/
 
