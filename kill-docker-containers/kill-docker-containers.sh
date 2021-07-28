@@ -1,4 +1,10 @@
 #!/bin/bash
+#title           :kill-all-docker-containers.sh
+#description     :Kills running Docker containers with a given name
+#author			     :github.com/cngough
+#date            :20210720
+#version         :0.1
+#==============================================================================
 
 function usage {
   echo "Usage: $(basename $0) -c [container]" 2>&1
