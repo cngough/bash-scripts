@@ -2,7 +2,7 @@
 
 function usage {
   echo "Usage: $(basename $0) -e [old email;new email] -n [old name;new name] -f" 2>&1
-  echo "Example: update-git-author.sh -e \"john@foo.com;john@bar.com\" -n \"jsmith;John Smith\""
+  echo "Example: update-git-author.sh -e \'john@foo.com;john@bar.com\' -n \'jsmith;John Smith\'"
   echo '  -e    replaces an old author email address with the provided one'
   echo '  -n    replaces an old author name with the provided one'
   exit 1
